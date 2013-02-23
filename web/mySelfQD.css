@@ -1,0 +1,118 @@
+
+h1 {
+    font-size: 2em;
+    font-weight: bold;
+    color: #777777;
+    margin: 40px 0px 70px;
+    text-align: center;
+}
+
+.ref {
+    color: #00ff00;
+}
+
+.gwt-w-label {
+    font-weight: bold;
+    font-family: arial;
+    font-size: 14px;
+    color: white;
+    text-align: center;
+}
+
+.gwt-im-text {
+    font-weight: bold;
+    font-family: arial;
+    font-size: 18px;
+    color: white;
+    text-align: center;
+}
+.gwt-TA-info {
+    font-weight: bold;
+    font-family: arial;
+    font-size: 14px;
+    color: white;
+    text-align: left;
+}
+.gwt-TA-error {
+    font-weight: bold;
+    font-family: arial;
+    font-size: 14px;
+    color: red;
+    text-align: left;
+}
+
+.gwt-TA-warning {
+    font-weight: bold;
+    font-family: arial;
+    font-size: 14px;
+    color: orange;
+    text-align: left;
+}
+
+.globalMoveCursor *, .globalMoveCursor .absolutelyPositioned {
+    cursor: move;
+}
+
+.focusPanel {
+    border-left: 3px solid #0002f1;
+    border-right: 3px solid #0002f1;
+    background: transparent;
+}
+
+.searchPanel {
+    border: 1px solid #000;
+    background: #f0f0f0;
+}
+
+.contactInfo{
+    font-weight: bold;
+    font-family: arial;
+    font-size: 12px;
+    color: white;
+    text-align: center;
+}
+/*ce ci est le style relatif à la zone html (si vous voulez enlever la bordure c'est ici)*/
+.TextBlock {
+    padding-left:10px;
+    padding-right:10px;
+    border: 2px solid #93c2f1;
+    background-color: #ffffff;
+}
+
+p, ol, ul, li {
+    font-size: 105% ! important;
+}
+
+span, font, h1, h2, h3, h4, h5, h6 {
+    font-size: 150% ! important;
+}
+
+ol, ul, li{
+    list-style: decimal !important;
+    list-style-position: inside !important;
+}
+/* cette classe pour la background de toute la page*/
+.mainPage{
+    background-color: #ffffff;
+}
+/* cette classe pour la background de la partie 
+supérieure de la page de recherche*/
+.searchHeader{
+    background-color: #4682b4;
+}
+/* cette classe pour la background du panel de statut*/
+.statusPanel{
+    background-color: #4682b4;
+}
+
+/* cette classe pour la background des boutons 
+de navigation et recherche dans les textArea*/
+.headerNav{
+    background-color: #f5f5f5;
+}
+
+/* cette classe pour le background du conteneur de la 
+partie principale de la page (liste de docs+ textAreas)*/
+.mainContent .x-panel-body {
+    background-color: #f5f5f5;
+}
