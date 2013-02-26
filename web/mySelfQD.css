@@ -73,26 +73,23 @@ h1 {
 }
 /*ce ci est le style relatif à la zone html (si vous voulez enlever la bordure c'est ici)*/
 .TextBlock {
+    font-size: 1.2em ! important;
     padding-left:10px;
     padding-right:10px;
     border: 2px solid #93c2f1;
     background-color: #ffffff;
 }
 
-p, ol, ul, li {
-    font-size: 105% ! important;
+span, h1, h2, h3, h4, h5, h6, p {
+    font-size: 1.2em ! important;
+}
+font {
+    font-size: 100% ! important;
 }
 
-span, font, h1, h2, h3, h4, h5, h6 {
-    font-size: 150% ! important;
-}
-
-ol, ul, li{
-    list-style: decimal !important;
-    list-style-position: inside !important;
-}
 /* cette classe pour la background de toute la page*/
 .mainPage{
+    border: 2px solid #93c2f1;
     background-color: #ffffff;
 }
 /* cette classe pour la background de la partie 
@@ -102,6 +99,7 @@ supérieure de la page de recherche*/
 }
 /* cette classe pour la background du panel de statut*/
 .statusPanel{
+    border: 2px solid #93c2f1;
     background-color: #4682b4;
 }
 
