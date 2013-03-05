@@ -122,7 +122,6 @@ public class ParseWidget extends Composite {
         headPanel.add(leftheadPanel);
         headPanel.add(SQDText);
         headPanel.setCellHorizontalAlignment(SQDText, HorizontalPanel.ALIGN_RIGHT);
-        headPanel.add(new HTML("&nbsp;"));
         if ((!GuiConstant.LOGO_PATH.isEmpty()) && (!GuiConstant.LOGO_PATH.isEmpty())) {
             if ((!GuiConstant.LOGO_PATH.equalsIgnoreCase(" ")) && (!GuiConstant.LOGO_PATH.equalsIgnoreCase(" "))) {
                 headPanel.add(im);
@@ -297,6 +296,7 @@ public class ParseWidget extends Composite {
                     ref = fileContent;
                     setMessage("info", GuiConstant.MSG_3);
                     refArea.setHtml(ref);
+                    Window.alert(refArea.getItems().size()+"");
                     refs = refArea.getElement().getElementsByTagName("a");
                     save.removeAllListeners();
                     save.addListener(Events.OnClick, new Listener<BaseEvent>() {
