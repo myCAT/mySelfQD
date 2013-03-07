@@ -73,7 +73,8 @@ h1 {
 }
 /*ce ci est le style relatif à la zone html (si vous voulez enlever la bordure c'est ici)*/
 .TextBlock {
-    font-size: 1.2em ! important;
+    font-size: 1.2em ! important; /* this is for the global font size factor*/ 
+    line-height: 1.2em ! important; /* this is for the global line height*/ 
     padding-left:10px;
     padding-right:10px;
     border: 2px solid #93c2f1;
@@ -81,10 +82,12 @@ h1 {
 }
 
 span, h1, h2, h3, h4, h5, h6, p {
-    font-size: 1.2em ! important;
+    font-size: 1.2em ! important;  /* this is for the local font size factor*/ 
+    line-height: 1.4em ! important;  /* this is for the localline height factor*/ 
 }
 font {
-    font-size: 100% ! important;
+    font-size: 100% ! important;  /* this is for the font's font size factor*/ 
+    line-height: 100% ! important;  /* this is for the font line height factor*/ 
 }
 
 /* cette classe pour la background de toute la page*/

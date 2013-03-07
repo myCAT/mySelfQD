@@ -296,7 +296,6 @@ public class ParseWidget extends Composite {
                     ref = fileContent;
                     setMessage("info", GuiConstant.MSG_3);
                     refArea.setHtml(ref);
-                    Window.alert(refArea.getItems().size()+"");
                     refs = refArea.getElement().getElementsByTagName("a");
                     save.removeAllListeners();
                     save.addListener(Events.OnClick, new Listener<BaseEvent>() {
