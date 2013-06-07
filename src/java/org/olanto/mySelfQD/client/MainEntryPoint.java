@@ -25,6 +25,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -61,8 +62,7 @@ public class MainEntryPoint implements EntryPoint {
     }
 
     private void getPropertiesMyParse() {
-        rpcM.InitPropertiesFromFile(new AsyncCallback<GwtProp>() {
-
+        rpcM.InitPropertiesFromFile(Cookies.getCookie(CookiesNamespace.InterfaceLanguage), new AsyncCallback<GwtProp>() {
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert("Couldn't get properties List");
@@ -92,9 +92,9 @@ public class MainEntryPoint implements EntryPoint {
         myParseWidget.mainWidget.setWidth("100%");
         myParseWidget.statusPanel.setWidth("100%");
         myParseWidget.headPanel.setWidth("100%");
+        myParseWidget.adaptSize();
 
         History.addValueChangeHandler(new ValueChangeHandler<String>() {
-
             @Override
             public void onValueChange(ValueChangeEvent<String> event) {
 //                Window.alert("History item :" + event.getValue());
@@ -106,6 +106,7 @@ public class MainEntryPoint implements EntryPoint {
     private void initCookiesMyParse() {
         MyParseCookies.initCookie(CookiesNamespace.ParseMinFreq, "6");
         MyParseCookies.initCookie(CookiesNamespace.ParseMinLength, "3");
+        MyParseCookies.initCookie(CookiesNamespace.InterfaceLanguage, "en");
     }
 
     public static void download(String fileDownloadURL) {
@@ -142,6 +143,8 @@ public class MainEntryPoint implements EntryPoint {
         GuiConstant.WIDGET_BTN_SQD_LN = CONST.WIDGET_LBL_SQD_LN;
         GuiConstant.WIDGET_BTN_SQD_FRQ = CONST.WIDGET_LBL_SQD_FRQ;
         GuiConstant.FEEDBACK_MAIL = CONST.FEEDBACK_MAIL;
+        GuiConstant.CHOOSE_GUI_LANG = CONST.CHOOSE_GUI_LANG;
+        GuiConstant.CHOOSE_GUI_LANG_LIST = CONST.CHOOSE_GUI_LANG_LIST;
         GuiConstant.MSG_1 = CONST.MSG_1;
         GuiConstant.MSG_2 = CONST.MSG_2;
         GuiConstant.MSG_3 = CONST.MSG_3;
@@ -157,7 +160,7 @@ public class MainEntryPoint implements EntryPoint {
         GuiConstant.MSG_13 = CONST.MSG_13;
         GuiConstant.MSG_14 = CONST.MSG_14;
         GuiConstant.MSG_15 = CONST.MSG_15;
-        
+
 //        Window.alert(GuiConstant.show());
     }
 

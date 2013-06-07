@@ -49,6 +49,8 @@ public class GuiConstant {
     public static String FEEDBACK_MAIL;
     public static boolean SAVE_ON;
     public static boolean MAXIMIZE_ON;
+    public static boolean CHOOSE_GUI_LANG;
+    public static String CHOOSE_GUI_LANG_LIST;
     public static String MSG_1;
     public static String MSG_2;
     public static String MSG_3;
@@ -64,6 +66,7 @@ public class GuiConstant {
     public static String MSG_13;
     public static String MSG_14;
     public static String MSG_15;
+
     /**
      * **********************************************************************************
      */

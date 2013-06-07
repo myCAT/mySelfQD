@@ -22,6 +22,7 @@
 package org.olanto.mySelfQD.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -79,7 +80,7 @@ public class myParseServiceImpl extends RemoteServiceServlet implements myParseS
     }
 
     @Override
-    public GwtProp InitPropertiesFromFile() {
+    public GwtProp InitPropertiesFromFile(String cookieLang) {
         if ((CONST == null) || (RELOAD_PARAM_ON)) {
             String fileName = SenseOS.getMYCAT_HOME() + "/config/GUI_fix.xml";
             System.out.println("found properties file:" + fileName);
@@ -95,7 +96,7 @@ public class myParseServiceImpl extends RemoteServiceServlet implements myParseS
                 prop.loadFromXML(f);
                 RELOAD_PARAM_ON = Boolean.valueOf(prop.getProperty("RELOAD_PARAM_ON", "false"));
 //                prop.list(System.out);
-                InitProperties();
+                InitProperties(cookieLang);
             } catch (Exception e) {
                 System.out.println("errors in properties file:" + fileName);
                 Logger.getLogger(myParseServiceImpl.class.getName()).log(Level.SEVERE, null, e);
@@ -107,10 +108,9 @@ public class myParseServiceImpl extends RemoteServiceServlet implements myParseS
         }
     }
 
-    private void InitProperties() {
+    private void InitProperties(String lastLang) {
         CONST = new GwtProp();
         String propPath = prop.getProperty("INTERFACE_MESSAGE_PATH");
-        String interLang = prop.getProperty("INTERFACE_MESSAGE_LANG");
         CONST.SAVE_ON = Boolean.valueOf(prop.getProperty("SAVE_ON"));
         CONST.MAXIMIZE_ON = Boolean.valueOf(prop.getProperty("MAXIMIZE_ON"));
         CONST.EXP_DAYS = Integer.parseInt(prop.getProperty("EXP_DAYS"));
@@ -128,35 +128,50 @@ public class myParseServiceImpl extends RemoteServiceServlet implements myParseS
         CONST.LOGO_PATH = prop.getProperty("LOGO_PATH");
         CONST.LOGO_URL = prop.getProperty("LOGO_URL");
         CONST.FEEDBACK_MAIL = prop.getProperty("FEEDBACK_MAIL");
+        CONST.CHOOSE_GUI_LANG = Boolean.valueOf(prop.getProperty("CHOOSE_GUI_LANG", "false"));
+        CONST.CHOOSE_GUI_LANG_LIST = prop.getProperty("CHOOSE_GUI_LANG_LIST", "en;fr");
         /**
          * **********************************************************************************
          */
+        String interLang;
+
+        if (CONST.CHOOSE_GUI_LANG) {
+            interLang = lastLang;
+        } else {
+            interLang = prop.getProperty("INTERFACE_MESSAGE_LANG");
+        }
+        String messagesPropFile;
         try {
-            if (interLang.isEmpty()) {
-                stringMan = new ConstStringManager(home + propPath + ".properties");
+            if ((interLang == null)) {
+                messagesPropFile = home + propPath + ".properties";
             } else {
-                stringMan = new ConstStringManager(home + propPath + "_" + interLang + ".properties");
+                messagesPropFile = home + propPath + "_" + interLang + ".properties";
+                File prp = new File(messagesPropFile);
+                if (!(prp.exists())) {
+                    messagesPropFile = home + propPath + ".properties";
+                }
             }
+            stringMan = new ConstStringManager(messagesPropFile);
             CONST.WIDGET_BTN_SUBMIT = stringMan.get("widget.btn.submit");
             CONST.WIDGET_BTN_HELP = stringMan.get("widget.btn.help");
             CONST.WIDGET_BTN_SQD_SAVE = stringMan.get("widget.btn.sqd.save");
             CONST.WIDGET_LBL_SQD_LN = stringMan.get("widget.label.sqd.length");
             CONST.WIDGET_LBL_SQD_FRQ = stringMan.get("widget.label.sqd.freq");
-            CONST.MSG_1 = stringMan.get("widget.MSG_29");
-            CONST.MSG_2 = stringMan.get("widget.MSG_42");
-            CONST.MSG_3 = stringMan.get("widget.MSG_46");
-            CONST.MSG_4 = stringMan.get("widget.MSG_61");
-            CONST.MSG_5 = stringMan.get("widget.MSG_60");
-            CONST.MSG_6 = stringMan.get("widget.MSG_39");
-            CONST.MSG_7 = stringMan.get("widget.MSG_13");
-            CONST.MSG_8 = stringMan.get("widget.MSG_14");
-            CONST.MSG_9 = stringMan.get("widget.MSG_40");
-            CONST.MSG_10 = stringMan.get("widget.MSG_44");
-            CONST.MSG_11 = stringMan.get("widget.MSG_12");
-            CONST.MSG_12 = stringMan.get("widget.MSG_61");
-            CONST.MSG_13 = stringMan.get("widget.MSG_45");
-            CONST.MSG_14 = stringMan.get("widget.MSG_46");
-            CONST.MSG_15 = stringMan.get("widget.MSG_47");
+            CONST.MSG_1 = stringMan.get("widget.sqd.MSG_1");
+            CONST.MSG_2 = stringMan.get("widget.sqd.MSG_2");
+            CONST.MSG_3 = stringMan.get("widget.sqd.MSG_3");
+            CONST.MSG_4 = stringMan.get("widget.sqd.MSG_4");
+            CONST.MSG_5 = stringMan.get("widget.sqd.MSG_5");
+            CONST.MSG_6 = stringMan.get("widget.sqd.MSG_6");
+            CONST.MSG_7 = stringMan.get("widget.sqd.MSG_7");
+            CONST.MSG_8 = stringMan.get("widget.sqd.MSG_8");
+            CONST.MSG_9 = stringMan.get("widget.sqd.MSG_9");
+            CONST.MSG_10 = stringMan.get("widget.sqd.MSG_10");
+            CONST.MSG_11 = stringMan.get("widget.sqd.MSG_11");
+            CONST.MSG_12 = stringMan.get("widget.sqd.MSG_12");
+            CONST.MSG_13 = stringMan.get("widget.sqd.MSG_13");
+            CONST.MSG_14 = stringMan.get("widget.sqd.MSG_14");
+            CONST.MSG_15 = stringMan.get("widget.sqd.MSG_15");
         } catch (IOException ex) {
             Logger.getLogger(myParseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

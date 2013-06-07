@@ -85,6 +85,9 @@ public class ParseWidget extends Composite {
     private final int W_Unit = 20;
     private static final int CHAR_W = GuiConstant.CHARACTER_WIDTH;
     private TabSet topJobsSet = new TabSet();
+    private final String[] INT_LANG = GuiConstant.CHOOSE_GUI_LANG_LIST.split("\\;");
+    private Label chooseLang = new Label(GuiConstant.MSG_9);
+    private ListBox langInterface = new ListBox();
     private NodeList<Element> refs;
 
     public ParseWidget() {
@@ -117,6 +120,11 @@ public class ParseWidget extends Composite {
         headerPanel.add(minFreq);
         headerPanel.add(help);
         headerPanel.add(save);
+        if (GuiConstant.CHOOSE_GUI_LANG) {
+            headerPanel.add(chooseLang);
+            headerPanel.add(langInterface);
+        }
+
         headerPanel.setStylePrimaryName("searchHeader");
 
         headPanel.add(leftheadPanel);
@@ -149,7 +157,7 @@ public class ParseWidget extends Composite {
         statusPanel.add(contact);
         statusPanel.setCellHorizontalAlignment(contact, HorizontalPanel.ALIGN_RIGHT);
 
-        contact.setHeight("25px");
+        contact.setPixelSize(300, 25);
         contact.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
         Anchor poweredBy = new Anchor(GuiConstant.OLANTO_URL.substring(0, GuiConstant.OLANTO_URL.indexOf("|")), true,
                 GuiConstant.OLANTO_URL.substring(GuiConstant.OLANTO_URL.indexOf("|") + 1, GuiConstant.OLANTO_URL.lastIndexOf("|")),
@@ -174,7 +182,6 @@ public class ParseWidget extends Composite {
         fileUpload.addOnStartUploadHandler(onStartUploaderHandler);
         fileUpload.addOnFinishUploadHandler(onFinishUploaderHandler);
         help.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
             @Override
             public void handleEvent(BaseEvent be) {
                 Window.open(GuiConstant.SQD_HELP_URL, "", GuiConstant.W_OPEN_FEATURES);
@@ -192,25 +199,28 @@ public class ParseWidget extends Composite {
         minFreq.setSelectedIndex(Integer.parseInt(Cookies.getCookie(CookiesNamespace.ParseMinFreq)));
 
         minFreq.addChangeHandler(new ChangeHandler() {
-
             @Override
             public void onChange(ChangeEvent event) {
                 MyParseCookies.updateCookie(CookiesNamespace.ParseMinFreq, "" + minFreq.getSelectedIndex());
             }
         });
-
-
-
         minLength.addChangeHandler(new ChangeHandler() {
-
             @Override
             public void onChange(ChangeEvent event) {
                 MyParseCookies.updateCookie(CookiesNamespace.ParseMinLength, "" + minLength.getSelectedIndex());
             }
         });
+        if (GuiConstant.CHOOSE_GUI_LANG) {
+            langInterface.addChangeHandler(new ChangeHandler() {
+                @Override
+                public void onChange(ChangeEvent event) {
+                    MyParseCookies.updateCookie(CookiesNamespace.InterfaceLanguage, INT_LANG[langInterface.getSelectedIndex()]);
+                    Window.Location.reload();
+                }
+            });
+        }
         if ((!GuiConstant.LOGO_PATH.isEmpty()) && (!GuiConstant.LOGO_PATH.isEmpty())) {
             im.addClickHandler(new ClickHandler() {
-
                 @Override
                 public void onClick(ClickEvent event) {
                     Window.open(GuiConstant.LOGO_URL, "", GuiConstant.W_OPEN_FEATURES);
@@ -218,7 +228,6 @@ public class ParseWidget extends Composite {
             });
         }
         feedback.addClickHandler(new ClickHandler() {
-
             @Override
             public void onClick(ClickEvent event) {
                 mailto(GuiConstant.FEEDBACK_MAIL.substring(GuiConstant.FEEDBACK_MAIL.lastIndexOf("|") + 1), GuiConstant.MSG_6 + GuiConstant.SELF_QD);
@@ -238,7 +247,15 @@ public class ParseWidget extends Composite {
         minLn.setStyleName("gwt-w-label");
         SQDText.setText(GuiConstant.SELF_QD);
         SQDText.setStyleName("gwt-im-text");
-        htmlWrapper.setPixelSize((Window.getClientWidth() - 2 * W_Unit), (Window.getClientHeight() - 3 * H_Unit));
+        chooseLang.setStyleName("gwt-w-label");
+
+        for (int i = 0; i < INT_LANG.length; i++) {
+            langInterface.addItem(INT_LANG[i]);
+        }
+        langInterface.setWidth(2 * W_Unit + "px");
+        langInterface.setSelectedIndex(getIndex(INT_LANG, Cookies.getCookie(CookiesNamespace.InterfaceLanguage)));
+
+        htmlWrapper.setPixelSize((Window.getClientWidth() - 2 * W_Unit), (Window.getClientHeight() - 4 * H_Unit));
         refArea.setWidth((Window.getClientWidth() - 3 * W_Unit) + "px");
         if ((GuiConstant.JOBS_ITEMS != null) && (GuiConstant.JOBS_ITEMS.length() > 1)) {
             String jobs = GuiConstant.JOBS_ITEMS;
@@ -260,7 +277,6 @@ public class ParseWidget extends Composite {
             }
             topJobsSet.setSelectedTab(0);
             topJobsSet.addTabSelectedHandler(new TabSelectedHandler() {
-
                 @Override
                 public void onTabSelected(TabSelectedEvent event) {
                     if (!(event.getTab().getID().contains("Empty"))) {
@@ -274,6 +290,7 @@ public class ParseWidget extends Composite {
         } else {
             leftheadPanel.remove(topJobsSet);
         }
+        adaptSize();
     }
 
     public void setbuttonstyle(Button b, int w, int h) {
@@ -281,7 +298,6 @@ public class ParseWidget extends Composite {
         b.setPixelSize(w, h);
     }
     private IUploader.OnFinishUploaderHandler onFinishUploaderHandler = new IUploader.OnFinishUploaderHandler() {
-
         @Override
         public void onFinish(IUploader uploader) {
             if (uploader.getStatus() == Status.SUCCESS) {
@@ -299,7 +315,6 @@ public class ParseWidget extends Composite {
                     refs = refArea.getElement().getElementsByTagName("a");
                     save.removeAllListeners();
                     save.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
                         @Override
                         public void handleEvent(BaseEvent be) {
                             MyParseDownload.downloadFileFromServer(getSavedFileName() + GuiConstant.SELFQD_FILE_EXT, ref);
@@ -310,7 +325,6 @@ public class ParseWidget extends Composite {
                     GoSrch.enable();
                     GoSrch.removeAllListeners();
                     GoSrch.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
                         @Override
                         public void handleEvent(BaseEvent be) {
                             GoSrch.disable();
@@ -319,13 +333,12 @@ public class ParseWidget extends Composite {
                     });
                 }
             } else {
-                setMessage("error", GuiConstant.MSG_9);
+                setMessage("error", GuiConstant.MSG_5);
                 GoSrch.enable();
             }
         }
     };
     private IUploader.OnStartUploaderHandler onStartUploaderHandler = new IUploader.OnStartUploaderHandler() {
-
         @Override
         public void onStart(IUploader uploader) {
             setMessage("info", GuiConstant.MSG_11);
@@ -341,9 +354,8 @@ public class ParseWidget extends Composite {
             setMessage("error", GuiConstant.MSG_10);
             GoSrch.enable();
         } else {
-            setMessage("info", GuiConstant.MSG_12 + fileName);
+            setMessage("info", GuiConstant.MSG_4 + fileName);
             rpcRef.getHtmlRef(fileContent, fileName, occMin, consMin, GuiConstant.SELFQD_FILE_EXT, new AsyncCallback<String>() {
-
                 @Override
                 public void onFailure(Throwable caught) {
                     setMessage("error", GuiConstant.MSG_13);
@@ -354,13 +366,12 @@ public class ParseWidget extends Composite {
                 public void onSuccess(String result) {
                     if (result != null) {
                         ref = result;
-                        setMessage("info", GuiConstant.MSG_14);
+                        setMessage("info", GuiConstant.MSG_3);
                         refArea.setHtml(ref);
                         adaptSize();
                         refs = refArea.getElement().getElementsByTagName("a");
                         save.removeAllListeners();
                         save.addListener(Events.OnClick, new Listener<BaseEvent>() {
-
                             @Override
                             public void handleEvent(BaseEvent be) {
                                 MyParseDownload.downloadFileFromServer(getSavedFileName() + GuiConstant.SELFQD_FILE_EXT, ref);
@@ -393,9 +404,22 @@ public class ParseWidget extends Composite {
     }
 
     public void adaptSize() {
-        statusPanel.setPixelSize(htmlWrapper.getOffsetWidth(), statusPanel.getOffsetHeight());
-        headPanel.setPixelSize(htmlWrapper.getOffsetWidth(), headPanel.getOffsetHeight());
-        msg.setWidth((statusPanel.getOffsetWidth() - contact.getOffsetWidth()) + "px");
+        int width = getMaximumWidth();
+        statusPanel.setPixelSize(width, statusPanel.getOffsetHeight());
+        headPanel.setPixelSize(width, headPanel.getOffsetHeight());
+        mainContainer.setPixelSize(width, mainContainer.getOffsetHeight());
+        msg.setWidth((width - contact.getOffsetWidth()) + "px");
+    }
+
+    private int getMaximumWidth() {
+        int max = mainContainer.getOffsetWidth();
+        if (statusPanel.getOffsetWidth() > max) {
+            max = statusPanel.getOffsetWidth();
+        }
+        if (headPanel.getOffsetWidth() > max) {
+            max = headPanel.getOffsetWidth();
+        }
+        return max;
     }
 
     private String getSavedFileName() {
@@ -410,5 +434,16 @@ public class ParseWidget extends Composite {
             return fileName.substring(idx);
         }
         return fileName;
+    }
+
+    private int getIndex(String[] source, String cookie) {
+        int i = 0;
+        for (int j = 0; j < source.length; j++) {
+            if (source[j].equalsIgnoreCase(cookie)) {
+                i = j;
+                break;
+            }
+        }
+        return i;
     }
 }

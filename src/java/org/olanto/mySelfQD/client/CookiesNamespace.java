@@ -29,4 +29,5 @@ public class CookiesNamespace {
 
     public static String ParseMinFreq = "ParseMinFreq";
     public static String ParseMinLength = "ParseMinLength";
+    public static String InterfaceLanguage = "InterfaceLanguage";
 }

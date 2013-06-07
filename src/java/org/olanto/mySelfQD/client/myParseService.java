@@ -35,8 +35,7 @@ public interface myParseService extends RemoteService {
 
     public String createTempFile(String FileName, String Content);
 
-    public GwtProp InitPropertiesFromFile();
+    public GwtProp InitPropertiesFromFile(String cookieLang);
 
     public String getHtmlRef(String Content, String fileName, int minOccs, int minCons, String SQDSaveExt);
-
 }

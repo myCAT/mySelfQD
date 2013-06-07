@@ -35,5 +35,5 @@ public interface myParseServiceAsync {
 
     public void getHtmlRef(String content, String fileName, int minOccs, int minCons, String SQDSaveExt, AsyncCallback<String> asyncCallback);
 
-    public void InitPropertiesFromFile(AsyncCallback<GwtProp> asyncCallback);
+    public void InitPropertiesFromFile(String cookieLang, AsyncCallback<GwtProp> asyncCallback);
 }

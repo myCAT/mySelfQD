@@ -51,6 +51,8 @@ public class GwtProp implements IsSerializable {
     public String WIDGET_LBL_SQD_LN;
     public String WIDGET_LBL_SQD_FRQ;
     public String FEEDBACK_MAIL;
+    public boolean CHOOSE_GUI_LANG;
+    public String CHOOSE_GUI_LANG_LIST;
     public String MSG_1;
     public String MSG_2;
     public String MSG_3;
